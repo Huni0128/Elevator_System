@@ -5,3 +5,6 @@
 
 ## 소스코드
 [Elevator System 소스코드 보러가기](./elevator_system.ino)
+
+## Thinkercad 회로
+[프로젝트 보러가기](https://www.tinkercad.com/things/bocGA5UaAkd-surprising-elzing-borwo?sharecode=SsPkLf7Fkf3UwdpTAjQigbn5cZSbVa4m2_InsnSYL7M)
