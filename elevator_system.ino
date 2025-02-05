@@ -1,6 +1,4 @@
-// =====================================================
 // 핀 설정
-// =====================================================
 const int callButtonPins[3] = {11, 12, 13};  // 호출 버튼
 const int callIndicatorPins[3] = {8, 9, 10};  // 호출 요청 상태 LED
 const int floorIndicatorPins[3] = {A0, 4, 7};  // 현재 층 표시 LED
@@ -9,9 +7,7 @@ const int corridorLED_1_2_phase2 = 3;
 const int corridorLED_2_3_phase1 = 5;  // 2층-3층 이동 LED
 const int corridorLED_2_3_phase2 = 6;
 
-// =====================================================
 // 전역 변수
-// =====================================================
 bool callRequested[3] = { false, false, false };  // 호출 상태 배열
 int prevButtonState[3] = { LOW, LOW, LOW };  // 이전 버튼 상태 배열
 int currentFloorNum = 1;  // 현재 층, 초기값 1층
@@ -24,9 +20,7 @@ int movementPhase = 0;  // 이동 단계
 unsigned long phaseStartTime = 0;  // 이동 시작 시간
 int nextFloorNum = 0;  // 다음 층
 
-// =====================================================
 // 설정: 초기화
-// =====================================================
 void setup() {
   // 호출 버튼, 호출 상태 LED, 층 표시 LED 초기화
   for (int i = 0; i < 3; i++) 
@@ -40,24 +34,22 @@ void setup() {
   // 현재 층 표시 LED 켜기
   digitalWrite(floorIndicatorPins[currentFloorNum - 1], HIGH);
 
-  // 복도 LED 핀 초기화
+  // 경로 LED 핀 초기화
   pinMode(corridorLED_1_2_phase1, OUTPUT);
   pinMode(corridorLED_1_2_phase2, OUTPUT);
   pinMode(corridorLED_2_3_phase1, OUTPUT);
   pinMode(corridorLED_2_3_phase2, OUTPUT);
-  // 복도 LED 초기화 (모두 끄기)
+  // 경로 LED 초기화 (모두 끄기)
   digitalWrite(corridorLED_1_2_phase1, LOW);
   digitalWrite(corridorLED_1_2_phase2, LOW);
   digitalWrite(corridorLED_2_3_phase1, LOW);
   digitalWrite(corridorLED_2_3_phase2, LOW);
 }
 
-// =====================================================
 // 이동 처리: 이동 단계별로 LED 및 층 변경
-// =====================================================
 void processMovement() 
 {
-  // 호출이 취소된 경우 이동 중지 및 복도 LED 끄기
+  // 호출이 취소된 경우 이동 중지 및 경로 LED 끄기
   if (!callRequested[destinationFloor - 1]) 
   {
     digitalWrite(corridorLED_1_2_phase1, LOW);
@@ -76,7 +68,7 @@ void processMovement()
     nextFloorNum = currentFloorNum + direction;  // 다음 층 계산
     digitalWrite(floorIndicatorPins[currentFloorNum - 1], LOW);  // 현재 층 LED 끄기
 
-    // 복도 LED 켜기 (이동 방향에 따라 다름)
+    // 경로 LED 켜기 (이동 방향에 따라 다름)
     if ((currentFloorNum == 1 && nextFloorNum == 2) || (currentFloorNum == 2 && nextFloorNum == 1)) 
     {
       if (direction > 0)
@@ -94,7 +86,7 @@ void processMovement()
     movementPhase = 1;  // 이동 단계 1로 변경
     phaseStartTime = millis();  // 이동 시작 시간 기록
   } 
-  // 이동 단계 1: 복도 LED 변경
+  // 이동 단계 1: 경로 LED 변경
   else if (movementPhase == 1) 
   {
     if (millis() - phaseStartTime >= moveDelay / 2) 
@@ -133,7 +125,7 @@ void processMovement()
   {
     if (millis() - phaseStartTime >= moveDelay / 2) 
     {
-      // 이동 완료 후 복도 LED 끄기
+      // 이동 완료 후 경로 LED 끄기
       if ((currentFloorNum == 1 && nextFloorNum == 2) || (currentFloorNum == 2 && nextFloorNum == 1)) 
       {
         digitalWrite(corridorLED_1_2_phase1, LOW);
@@ -166,9 +158,7 @@ void processMovement()
   }
 }
 
-// =====================================================
 // 메인 루프: 버튼 입력 처리 및 이동 시작
-// =====================================================
 void loop() 
 {
   // 호출 버튼 상태 처리
