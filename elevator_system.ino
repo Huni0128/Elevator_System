@@ -140,7 +140,6 @@ void processMovement()
       digitalWrite(floorIndicatorPins[currentFloorNum - 1], HIGH);  // 새로운 층 표시 LED 켜기
 
       callRequested[currentFloorNum - 1] = false;  // 호출 요청 취소
-      digitalWrite(callIndicatorPins[currentFloorNum - 1], LOW);  // 호출 LED 끄기
       prevButtonState[currentFloorNum - 1] = LOW;  // 이전 버튼 상태 초기화
       movementPhase = 0;  // 이동 단계 초기화
 
